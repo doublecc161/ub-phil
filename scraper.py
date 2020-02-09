@@ -23,9 +23,11 @@ date_time = now.strftime("%m/%d/%Y_%H:%M:%S")
 regex = r"(?<=google\.visualization\.arrayToDataTable\()(.*?)(?=\)\;)"
 matches = re.findall(regex, html, flags=0)
 
+print("matches: ",matches, "date: ", date_time)
+
 #
 # # Write out to the sqlite database using scraperwiki library
-scraperwiki.sqlite.save(unique_keys=['up_phil'], data={"match": matches, "date": date_time})
+scraperwiki.sqlite.save(unique_keys=['name'], data={"match": matches, "date": date_time})
 #
 # # An arbitrary query against the database
 # scraperwiki.sql.select("* from data where 'name'='peter'")
