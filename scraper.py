@@ -1,18 +1,31 @@
 # This is a template for a Python scraper on morph.io (https://morph.io)
 # including some code snippets below that you should find helpful
 
-# import scraperwiki
-# import lxml.html
+import scraperwiki
+import lxml.html
+import re
+from datetime import datetime
+
 #
 # # Read in a page
-# html = scraperwiki.scrape("http://foo.com")
+html = scraperwiki.scrape("https://auslastung.ub.uni-muenchen.de/index.php?r=site/grafik&user=phil")
 #
 # # Find something on the page using css selectors
-# root = lxml.html.fromstring(html)
-# root.cssselect("div[align='left']")
+root = lxml.html.fromstring(html)
+root.cssselect("div[align='left']")
+
+
+now = datetime.now() # current date and time
+date_time = now.strftime("%m/%d/%Y_%H:%M:%S")
+
+
+
+regex = r"(?<=google\.visualization\.arrayToDataTable\()(.*?)(?=\)\;)"
+matches = re.findall(regex, html, flags=0)
+
 #
 # # Write out to the sqlite database using scraperwiki library
-# scraperwiki.sqlite.save(unique_keys=['name'], data={"name": "susan", "occupation": "software developer"})
+scraperwiki.sqlite.save(unique_keys=['up_phil'], data={"match": matches, "date": date_time})
 #
 # # An arbitrary query against the database
 # scraperwiki.sql.select("* from data where 'name'='peter'")
